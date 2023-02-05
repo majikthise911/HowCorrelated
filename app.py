@@ -1,6 +1,5 @@
 import streamlit as st
 from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices# pip install PyPortfolioOpt
-from streamlit_option_menu import option_menu # pip install streamlit-option-menu
 from pypfopt import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
