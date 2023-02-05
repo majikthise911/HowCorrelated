@@ -118,7 +118,7 @@ try:
 	fig_cum_returns = plot_cum_returns(stocks_df, 'Cumulative Returns of Individual Stocks Starting with $100')
 	# # Calculatge and Plot Correlation Matrix between Stocks
 	corr_df = stocks_df.corr().round(2) # round to 2 decimal places
-	fig_corr = px.imshow(corr_df, text_auto=True, title = 'Correlation between Stocks')
+	fig_corr = px.imshow(corr_df, text_auto=True, title = 'Correlation between Stocks', height=600, width=800)
 
 	# Calculate expected returns and sample covariance matrix for portfolio optimization later
 	mu = expected_returns.mean_historical_return(stocks_df)
