@@ -206,25 +206,25 @@ st.subheader('- Annual volatility: {}%'.format((annual_volatility*100).round(2))
 st.subheader('- Sharpe Ratio: {}'.format(sharpe_ratio.round(2)))
 st.markdown("""---""")
 
-# Tables of weights and amounts
-col1, col2 = st.columns(2)
-with col1:
-	# display the weights_df dataframe
-	st.markdown('''#### WEIGHTS 
-				(must add up to 1) ''')
-	weights_df['weights'] = (weights_df['weights']).round(2)
-	weights_df = weights_df.sort_values(by=['weights'], ascending=False)
-	st.dataframe(weights_df)
+# # Tables of weights and amounts
+# col1, col2 = st.columns(2)
+# with col1:
+# 	# display the weights_df dataframe
+# 	st.markdown('''#### WEIGHTS 
+# 				(must add up to 1) ''')
+# 	weights_df['weights'] = (weights_df['weights']).round(2)
+# 	weights_df = weights_df.sort_values(by=['weights'], ascending=False)
+# 	st.dataframe(weights_df)
 	
-with col2:
-	st.markdown(f'''#### BUY THIS AMOUNT 
-				(must add up to $ {amount}) ''')
-	# display the weights_df dataframe multiplied by the amount of money invested
-	amounts = weights_df*amount
-	amounts_sorted=amounts.sort_values(by=['weights'], ascending=False)
-	# rename the weights column to amounts
-	amounts_sorted.columns = ['$ amounts']
-	st.dataframe(amounts_sorted)
+# with col2:
+# 	st.markdown(f'''#### BUY THIS AMOUNT 
+# 				(must add up to $ {amount}) ''')
+# 	# display the weights_df dataframe multiplied by the amount of money invested
+# 	amounts = weights_df*amount
+# 	amounts_sorted=amounts.sort_values(by=['weights'], ascending=False)
+# 	# rename the weights column to amounts
+# 	amounts_sorted.columns = ['$ amounts']
+# 	st.dataframe(amounts_sorted)
 	    
 # st.plotly_chart(fig_cum_returns_optimized)
 
