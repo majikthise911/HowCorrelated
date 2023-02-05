@@ -40,8 +40,7 @@ st.sidebar.markdown('''
 st.markdown('### 1. How Much?')
 # 1. AMOUNT
 # Enter investment amount and display it. It must be an integer not a string
-amount = st.number_input('Investment Amount $', min_value=0, max_value=1000000, value=1000, step=100)
-st.write('You have entered: ', amount)
+amount = 100
 st.markdown("""---""")
 
 st.markdown('''### 2. How Long?
@@ -65,37 +64,7 @@ tickers_string = st.text_input('Enter all stock tickers to be included in portfo
 tickers = tickers_string.split(',')
 st.markdown("""---""")
 
-# 4. RISK - TODO: REMOVE THIS SECTION
-st.markdown('''### 4. Risk?
-How much risk are you willing to take?''')
-risk_tolerance = st.selectbox('Risk Tolerance', ('0.0 - Responsible', '1.0 - Maveric', '2.0 - Degenerate', '3.0 - Insane')) 
-if risk_tolerance == '0.0 - Responsible':
-	risk_tolerance = 0.0
-	st.write('You have elected to be Responsible')
-elif risk_tolerance == '1.0 - Maveric':
-	risk_tolerance = 1.0
-	st.write('You have elected to be a Maveric')
-elif risk_tolerance == '2.0 - Degenerate':
-	risk_tolerance = 2.0
-	st.write('You may be a Degenerate')
-elif risk_tolerance == '3.0 - Insane':
-	risk_tolerance = 3.0
-	st.write('You may be Insane')
-else:
-	st.write('Invalid Selection')
-
-# convert user input to actual risk free rate
-if risk_tolerance == 0.0:
-	risk_free_rate = 0.035
-elif risk_tolerance == 1.0:
-	risk_free_rate = 0.02
-elif risk_tolerance == 2.0:
-	risk_free_rate = 0.01
-elif risk_tolerance == 3.0:
-	risk_free_rate = 0.000
-else:
-	st.write('Invalid Selection')
-
+risk_free_rate = .02
 st.write('Risk Free Rate: ', risk_free_rate)
 st.markdown("""---""")
 
