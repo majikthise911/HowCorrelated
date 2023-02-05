@@ -234,26 +234,25 @@ with col2:
 # st.header("Optimized Max Sharpe Portfolio Weights")
 # st.dataframe(weights_df)
 
-show_more = st.checkbox('Show More Information')
-if show_more:
-	st.subheader("Optimized MaxSharpe Portfolio Performance")
-	st.markdown('''[Efficient Frontier Info](https://www.investopedia.com/terms/e/efficientfrontier.asp)''')
-	st.image(fig_efficient_frontier)
-	st.markdown("""---""")
 
-	# add link to Correlation Matrix header that takes you to investopedia article on correlation
-	st.header('Correlation Matrix') # https://www.investopedia.com/terms/c/correlationcoefficient.asp
-	st.markdown('''[Correlation Info](https://www.investopedia.com/terms/c/correlationcoefficient.asp)''')
-	st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
-	st.markdown("""---""")
+st.subheader("Optimized MaxSharpe Portfolio Performance")
+st.markdown('''[Efficient Frontier Info](https://www.investopedia.com/terms/e/efficientfrontier.asp)''')
+st.image(fig_efficient_frontier)
+st.markdown("""---""")
 
-	st.header('Individual Stock Prices and Cumulative Returns')
-	st.plotly_chart(fig_price)
-	st.markdown("""---""")
+# add link to Correlation Matrix header that takes you to investopedia article on correlation
+st.header('Correlation Matrix') # https://www.investopedia.com/terms/c/correlationcoefficient.asp
+st.markdown('''[Correlation Info](https://www.investopedia.com/terms/c/correlationcoefficient.asp)''')
+st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
+st.markdown("""---""")
 
-	st.plotly_chart(fig_cum_returns)
-	st.write(logging.exception(''))
-	st.markdown("""---""")
+st.header('Individual Stock Prices and Cumulative Returns')
+st.plotly_chart(fig_price)
+st.markdown("""---""")
+
+st.plotly_chart(fig_cum_returns)
+st.write(logging.exception(''))
+st.markdown("""---""")
 
 
 #################################################################################################################################
