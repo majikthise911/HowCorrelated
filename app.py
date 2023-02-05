@@ -237,7 +237,8 @@ st.write('(give it a few seconds to load)')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Call GPT-3 to generate summary
-prompt = f'''write a report on the {weights_df} dataframe. 
+prompt = f'''write a report on the {weights_df} dataframe but do not include the dataframe itself 
+or the weights themselves. Just discuss the correlation. 
 Please provide your information using markdown labeled sub-headings and bullet points 
 for each block of text.
 Explain the correlation of the optimized portfolio.
