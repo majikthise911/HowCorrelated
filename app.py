@@ -20,7 +20,7 @@ import logging	# for logging
 import pickle # pip install pickle5
 
 # -------------- PAGE CONFIG --------------
-page_title = "How Correlated?"
+page_title = "How Correlated"
 page_icon = ":question:"  # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 layout = "centered"
 
