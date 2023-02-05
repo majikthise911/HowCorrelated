@@ -27,16 +27,6 @@ layout = "centered"
 st.set_page_config(page_title = page_title, layout = layout, page_icon = page_icon)
 st.title(page_title + " " + page_icon)
 
-# Streamlit sidebar table of contents
-st.sidebar.markdown('''
-# Sections
-- [Optimized Max Sharpe Portfolio Weights](#optimized-max-sharpe-portfolio-weights)
-- [Performance Expectations](#performance-expectations)
-- [Correlation Matrix](#correlation-matrix)
-- [Individual Stock Prices and Cumulative Returns](#individual-stock-prices-and-cumulative-returns)
-- [AI Generated Report](#summary)
-''', unsafe_allow_html=True)
-
 st.markdown('### 1. How Much?')
 # 1. AMOUNT
 # Enter investment amount and display it. It must be an integer not a string
