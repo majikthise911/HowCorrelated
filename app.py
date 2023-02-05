@@ -55,7 +55,6 @@ tickers = tickers_string.split(',')
 st.markdown("""---""")
 
 risk_free_rate = .02
-st.write('Risk Free Rate: ', risk_free_rate)
 st.markdown("""---""")
 
 # Hide Streamlit Menu and Footer
@@ -181,9 +180,9 @@ if pd.isna(stocks_df2["Optimized Portfolio Amounts"].iloc[-1]): # if the last va
 else:
     previous_date_value = stocks_df2["Optimized Portfolio Amounts"].iloc[-1] # if the last value is not NaN, use the last value
 
-st.markdown(f''' ###  If you would have invested $ *{amount:,.2f}* in the Optimized Portfolio on *{start_date}*
-### it would be worth $ *{previous_date_value:,.2f}* today. :eyes: ''')
-st.markdown("""---""")
+# st.markdown(f''' ###  If you would have invested $ *{amount:,.2f}* in the Optimized Portfolio on *{start_date}*
+# ### it would be worth $ *{previous_date_value:,.2f}* today. :eyes: ''')
+# st.markdown("""---""")
 
 # # Optimized Portfolio: Cumulative Returns
 # fig = px.line(stocks_df2, x='Time', y='Optimized Portfolio Amounts', title= 'Optimized Portfolio: Cumulative Returns')
