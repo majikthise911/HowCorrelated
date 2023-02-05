@@ -55,7 +55,7 @@ with col1:
 	start_date = datetime(2021, 1, 1)
 	
 with col2:
-	end_date = datetime(2023, 1, 21)
+	end_date = datetime.today()
 st.markdown("""---""")
 
 # Hide Streamlit Menu and Footer
