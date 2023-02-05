@@ -21,16 +21,31 @@ import logging	# for logging
 import pickle # pip install pickle5
 
 # -------------- PAGE CONFIG --------------
-page_title = "How Correlated?"
-page_icon = ":question:"  # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
+page_title = "Financial Portfolio Optimizer"
+page_icon = ":zap:"  # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 layout = "centered"
 
 st.set_page_config(page_title = page_title, layout = layout, page_icon = page_icon)
 st.title(page_title + " " + page_icon)
 
-amount = 100
+# Streamlit sidebar table of contents
+st.sidebar.markdown('''
+# Sections
+- [Optimized Max Sharpe Portfolio Weights](#optimized-max-sharpe-portfolio-weights)
+- [Performance Expectations](#performance-expectations)
+- [Correlation Matrix](#correlation-matrix)
+- [Individual Stock Prices and Cumulative Returns](#individual-stock-prices-and-cumulative-returns)
+- [AI Generated Report](#summary)
+''', unsafe_allow_html=True)
 
-st.markdown('''### 2. Time Perios?
+st.markdown('### 1. How Much?')
+# 1. AMOUNT
+# Enter investment amount and display it. It must be an integer not a string
+amount = st.number_input('Investment Amount $', min_value=0, max_value=1000000, value=1000, step=100)
+st.write('You have entered: ', amount)
+st.markdown("""---""")
+
+st.markdown('''### 2. How Long?
 Enter start and end dates for backtesting your portfolio''') # TODO: Instead of entering start and end dates, have them enter 
 # number of years the user plans on holding the portfolio - then have the app go back that many years for the backtesting
 # 2.TIME HORIZON
@@ -45,12 +60,42 @@ st.markdown("""---""")
 
 # 3. TICKERS
 st.markdown('''### 3. What?
-Enter assets you would like to see correlations for''')
+Enter assets you would like to test as a portfolio''')
 tickers_string = st.text_input('Enter all stock tickers to be included in portfolio separated by commas \
 								WITHOUT spaces, e.g. "TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG"', 'TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG').upper()
 tickers = tickers_string.split(',')
 st.markdown("""---""")
-risk_free_rate = 0.02
+
+# 4. RISK - TODO: REMOVE THIS SECTION
+st.markdown('''### 4. Risk?
+How much risk are you willing to take?''')
+risk_tolerance = st.selectbox('Risk Tolerance', ('0.0 - Responsible', '1.0 - Maveric', '2.0 - Degenerate', '3.0 - Insane')) 
+if risk_tolerance == '0.0 - Responsible':
+	risk_tolerance = 0.0
+	st.write('You have elected to be Responsible')
+elif risk_tolerance == '1.0 - Maveric':
+	risk_tolerance = 1.0
+	st.write('You have elected to be a Maveric')
+elif risk_tolerance == '2.0 - Degenerate':
+	risk_tolerance = 2.0
+	st.write('You may be a Degenerate')
+elif risk_tolerance == '3.0 - Insane':
+	risk_tolerance = 3.0
+	st.write('You may be Insane')
+else:
+	st.write('Invalid Selection')
+
+# convert user input to actual risk free rate
+if risk_tolerance == 0.0:
+	risk_free_rate = 0.035
+elif risk_tolerance == 1.0:
+	risk_free_rate = 0.02
+elif risk_tolerance == 2.0:
+	risk_free_rate = 0.01
+elif risk_tolerance == 3.0:
+	risk_free_rate = 0.000
+else:
+	st.write('Invalid Selection')
 
 st.write('Risk Free Rate: ', risk_free_rate)
 st.markdown("""---""")
@@ -144,9 +189,27 @@ try:
 	stocks_df['Optimized Portfolio'] = 0
 	for ticker, weight in weights.items():
 		stocks_df['Optimized Portfolio'] += stocks_df[ticker]*weight
+
+	# Download the weights_df dataframe as a csv file using a button
+	# @st.cache # this is a decorator that caches the function so that it doesn't have to be rerun every time the app is run
+	# def convert_df(weights_df): # this function converts the weights_df dataframe to a csv file
+	# # code to create or retrieve the weights_df dataframe goes here
+	# 	return weights_df.to_csv().encode('utf-8')
+	# csv = convert_df(weights_df) # assign the output of the convert_df function to a variable called csv
+
+	# st.download_button( # this creates a download button
+	# label="Download Optimized Weights as CSV",
+	# data=csv,
+	# file_name='weights_df.csv',
+	# mime='text/csv')
+	# st.markdown("""---""")
+
 except:
 	st.write(logging.exception(''))
+	###st.write('Enter correct stock tickers to be included in portfolio separated\********************************************
+# by commas WITHOUT spaces, e.g. "MA,FB,V,AMZN,JPM,BA"and hit Enter.')
 
+#___________________________________________2/2/23 _________________________________________________________
 
 stocks_df['Optimized Portfolio Amounts'] = 0
 stocks_df2 = stocks_df
@@ -159,37 +222,41 @@ if pd.isna(stocks_df2["Optimized Portfolio Amounts"].iloc[-1]): # if the last va
     previous_date_value = stocks_df2["Optimized Portfolio Amounts"].iloc[-2] # if the last value is NaN, use the second to last value
 else:
     previous_date_value = stocks_df2["Optimized Portfolio Amounts"].iloc[-1] # if the last value is not NaN, use the last value
+
+st.markdown(f''' ###  If you would have invested $ *{amount:,.2f}* in the Optimized Portfolio on *{start_date}*
+### it would be worth $ *{previous_date_value:,.2f}* today. :eyes: ''')
 st.markdown("""---""")
 
 # Optimized Portfolio: Cumulative Returns
 fig = px.line(stocks_df2, x='Time', y='Optimized Portfolio Amounts', title= 'Optimized Portfolio: Cumulative Returns')
 fig.update_yaxes(title_text='$ Amount')
+st.plotly_chart(fig)
 
-# st.header('Performance Expectations:')
-# st.subheader('- Expected annual return: {}%'.format((expected_annual_return*100).round(2)))
-# st.subheader('- Annual volatility: {}%'.format((annual_volatility*100).round(2)))
-# st.subheader('- Sharpe Ratio: {}'.format(sharpe_ratio.round(2)))
-# st.markdown("""---""")
+st.header('Performance Expectations:')
+st.subheader('- Expected annual return: {}%'.format((expected_annual_return*100).round(2)))
+st.subheader('- Annual volatility: {}%'.format((annual_volatility*100).round(2)))
+st.subheader('- Sharpe Ratio: {}'.format(sharpe_ratio.round(2)))
+st.markdown("""---""")
 
 # Tables of weights and amounts
-# col1, col2 = st.columns(2)
-# with col1:
-# 	# display the weights_df dataframe
-# 	# st.markdown('''#### WEIGHTS 
-# 	# 			(must add up to 1) ''')
-# 	weights_df['weights'] = (weights_df['weights']).round(2)
-# 	weights_df = weights_df.sort_values(by=['weights'], ascending=False)
-# 	st.dataframe(weights_df)
+col1, col2 = st.columns(2)
+with col1:
+	# display the weights_df dataframe
+	st.markdown('''#### WEIGHTS 
+				(must add up to 1) ''')
+	weights_df['weights'] = (weights_df['weights']).round(2)
+	weights_df = weights_df.sort_values(by=['weights'], ascending=False)
+	st.dataframe(weights_df)
 	
-# with col2:
-# 	# st.markdown(f'''#### BUY THIS AMOUNT 
-# 	# 			(must add up to $ {amount}) ''')
-# 	# display the weights_df dataframe multiplied by the amount of money invested
-# 	amounts = weights_df*amount
-# 	amounts_sorted=amounts.sort_values(by=['weights'], ascending=False)
-# 	# rename the weights column to amounts
-# 	amounts_sorted.columns = ['$ amounts']
-# 	st.dataframe(amounts_sorted)
+with col2:
+	st.markdown(f'''#### BUY THIS AMOUNT 
+				(must add up to $ {amount}) ''')
+	# display the weights_df dataframe multiplied by the amount of money invested
+	amounts = weights_df*amount
+	amounts_sorted=amounts.sort_values(by=['weights'], ascending=False)
+	# rename the weights column to amounts
+	amounts_sorted.columns = ['$ amounts']
+	st.dataframe(amounts_sorted)
 	    
 # st.plotly_chart(fig_cum_returns_optimized)
 
@@ -199,14 +266,40 @@ fig.update_yaxes(title_text='$ Amount')
 # st.header("Optimized Max Sharpe Portfolio Weights")
 # st.dataframe(weights_df)
 
-# add link to Correlation Matrix header that takes you to investopedia article on correlation
-st.header('Correlation Matrix') # https://www.investopedia.com/terms/c/correlationcoefficient.asp
-st.markdown('''[Correlation Info](https://www.investopedia.com/terms/c/correlationcoefficient.asp)''')
-st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
-st.markdown("""---""")
+show_more = st.checkbox('Show More Information')
+if show_more:
+	st.subheader("Optimized MaxSharpe Portfolio Performance")
+	st.markdown('''[Efficient Frontier Info](https://www.investopedia.com/terms/e/efficientfrontier.asp)''')
+	st.image(fig_efficient_frontier)
+	st.markdown("""---""")
 
+	# add link to Correlation Matrix header that takes you to investopedia article on correlation
+	st.header('Correlation Matrix') # https://www.investopedia.com/terms/c/correlationcoefficient.asp
+	st.markdown('''[Correlation Info](https://www.investopedia.com/terms/c/correlationcoefficient.asp)''')
+	st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
+	st.markdown("""---""")
+
+	st.header('Individual Stock Prices and Cumulative Returns')
+	st.plotly_chart(fig_price)
+	st.markdown("""---""")
+
+	st.plotly_chart(fig_cum_returns)
+	st.write(logging.exception(''))
+	st.markdown("""---""")
+
+# the below code is not needed but I'm leaving it here in case we want to use it later
+# it splits the tickers_string into a list of tickers and then iterates through the list 
+# to display each ticker on a new line
+# tickers_list = tickers_string.split(',')
+# for ticker in tickers_list:
+# 	st.write(ticker)
+# st.write('\n'.join(tickers_string))
+# write code to display tickers_string with each asset on a new line
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^2/2/23 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #################################################################################################################################
+# Display the weights_df dataframe
 report_title = " AI Generated Report  "  
+# Specify font to be inconsolata
 report_icon = ":crystal_ball:" # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.header('Summary')
 st.title(report_icon + " " + report_title + " " + report_icon)
@@ -234,3 +327,27 @@ response = openai.Completion.create(
 )
 resp = (f"\n {response['choices'][0]['text']}")
 st.markdown(resp)
+#################################################################################################################################
+
+
+# A+ issues: 
+# TODO: [ x ] add input for risk tolerance (should be little, medium, high that equates to numbers in the backend)
+# TODO: add toggles so that all other charts can be hidden and only the optimized portfolio chart is shown
+# TODO: pipe live data into discover page 
+# TODO: investigate numbers in Optimized Portfolio Amounts column in stocks_df2 dataframe
+
+# Nice to have issues:
+# TODO: add a santiment sentiment analysis section for each asset 
+# TODO: Add a button to refresh the page+
+# TODO: add microcap stocks and cryptos section that are most likely to succeed in the future
+# TODO: add daily top 10 stocks and cryptos with lowest rsi and highest rsi
+# TODO: add section where you can input trades and get a report on good or badness of trade? 
+# TODO: *********find a way to create support and resistance indicators with ai - ability to put in an asset and have gpt draw support and resistance lines 
+# TODO: ADD wale watchers section
+# TODO: Add a button to download the optimized portfolio weights - Completed
+# TODO: Change how the optimized portfolio list is sorted. Sort by weights instead of alphabetically - Completed
+# TODO: Add section to have GPT-3 generate a stock portfolio
+# TODO: Add section to have GPT-3 generate a report on the portfolio
+# TODO: Add button to each graph that shows the code/math to generate the graph
+#		Maybe find a way to integrate chat bot to explain the math/code with the chat bot that 
+# 		I already built in streamlit
