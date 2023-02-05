@@ -30,7 +30,18 @@ st.title(page_title + " " + page_icon)
 amount = 100
 st.markdown("""---""")
 
-st.markdown('''### 2. How Long?
+# 3. TICKERS
+st.markdown('''###  What?
+Enter assets you would like to test as a portfolio''')
+tickers_string = st.text_input('Enter all stock tickers to be included in portfolio separated by commas \
+								WITHOUT spaces, e.g. "TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG"', 'TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG').upper()
+tickers = tickers_string.split(',')
+
+risk_free_rate = .02
+st.markdown("""---""")
+
+
+st.markdown('''###  How Long?
 Enter time period you would like to see correlation.
 
 *Note: A rule of thumb is to use 5 years of data for 
@@ -45,16 +56,6 @@ with col1:
 	
 with col2:
 	end_date = st.date_input("End Date") # it defaults to current date
-st.markdown("""---""")
-
-# 3. TICKERS
-st.markdown('''### 3. What?
-Enter assets you would like to test as a portfolio''')
-tickers_string = st.text_input('Enter all stock tickers to be included in portfolio separated by commas \
-								WITHOUT spaces, e.g. "TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG"', 'TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG').upper()
-tickers = tickers_string.split(',')
-
-risk_free_rate = .02
 st.markdown("""---""")
 
 # Hide Streamlit Menu and Footer
