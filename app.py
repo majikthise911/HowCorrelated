@@ -34,13 +34,13 @@ amount = 100
 st.markdown("""---""")
 
 st.markdown('''### 2. How Long?
-Enter time period you would like to see correlation''') # TODO: Instead of entering start and end dates, have them enter 
+Enter time period you would like to see co''') # TODO: Instead of entering start and end dates, have them enter 
 # number of years the user plans on holding the portfolio - then have the app go back that many years for the backtesting
 # 2.TIME HORIZON
 col1, col2 = st.columns(2)  # split the screen into two columns. columns(2) says split the screen into two columns
 							# if said columns(1,2) then the first column would be 1/3 of the screen and the second column would be 2/3 of the screen
 with col1:
-	start_date = st.date_input("Start Date",datetime(2022, 1, 1))
+	start_date = st.date_input("Start Date",datetime(2020, 1, 1))
 	
 with col2:
 	end_date = st.date_input("End Date") # it defaults to current date
