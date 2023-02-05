@@ -31,7 +31,8 @@ amount = 100
 st.markdown("""---""")
 
 st.markdown('''### 2. How Long?
-Enter time period you would like to see correlation
+Enter time period you would like to see correlation.
+
 *Note: A rule of thumb is to use 5 years of data for 
 backtesting or the number of years you plan on holding the portfolio minus today's date.*
 ''') # TODO: Instead of entering start and end dates, have them enter 
