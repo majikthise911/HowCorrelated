@@ -225,7 +225,36 @@ st.markdown('''[Correlation Info](https://www.investopedia.com/terms/c/correlati
 st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
 st.markdown("""---""")
 
+# Display the weights_df dataframe
+report_title = " Chat GPT Says: "  
+# Specify font to be inconsolata
+report_icon = ":crystal_ball:" # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
+st.header('Summary')
+st.title(report_icon + " " + report_title + " " + report_icon)
+st.write('(give it a few seconds to load)')
 
+# Get the api key from the .env file
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Call GPT-3 to generate summary
+prompt = f'''write a report on the {weights_df} dataframe. 
+Please provide your information using markdown labeled sub-headings and bullet points 
+for each block of text.
+Explain the correlation of the optimized portfolio.
+Give a description of the methods used to calculate correlation.
+Explain what the correlation numbers mean and what insights the provide to investors.
+'''
+response = openai.Completion.create(
+	model="text-davinci-003", 
+	prompt= prompt,
+	temperature=.7,
+	max_tokens=1000, # the tokens are the max number of words. 
+	top_p=1.0,
+	frequency_penalty=0.0,
+	presence_penalty=0.0
+)
+resp = (f"\n {response['choices'][0]['text']}")
+st.markdown(resp)
 
 
 
