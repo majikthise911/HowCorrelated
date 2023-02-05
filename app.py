@@ -195,16 +195,16 @@ st.markdown(f''' ###  If you would have invested $ *{amount:,.2f}* in the Optimi
 ### it would be worth $ *{previous_date_value:,.2f}* today. :eyes: ''')
 st.markdown("""---""")
 
-# Optimized Portfolio: Cumulative Returns
-fig = px.line(stocks_df2, x='Time', y='Optimized Portfolio Amounts', title= 'Optimized Portfolio: Cumulative Returns')
-fig.update_yaxes(title_text='$ Amount')
-st.plotly_chart(fig)
+# # Optimized Portfolio: Cumulative Returns
+# fig = px.line(stocks_df2, x='Time', y='Optimized Portfolio Amounts', title= 'Optimized Portfolio: Cumulative Returns')
+# fig.update_yaxes(title_text='$ Amount')
+# st.plotly_chart(fig)
 
-st.header('Performance Expectations:')
-st.subheader('- Expected annual return: {}%'.format((expected_annual_return*100).round(2)))
-st.subheader('- Annual volatility: {}%'.format((annual_volatility*100).round(2)))
-st.subheader('- Sharpe Ratio: {}'.format(sharpe_ratio.round(2)))
-st.markdown("""---""")
+# st.header('Performance Expectations:')
+# st.subheader('- Expected annual return: {}%'.format((expected_annual_return*100).round(2)))
+# st.subheader('- Annual volatility: {}%'.format((annual_volatility*100).round(2)))
+# st.subheader('- Sharpe Ratio: {}'.format(sharpe_ratio.round(2)))
+# st.markdown("""---""")
 
 # # Tables of weights and amounts
 # col1, col2 = st.columns(2)
