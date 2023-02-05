@@ -8,7 +8,6 @@ plotly>=5.11.0
 matplotlib>=3.4.2
 seaborn>=0.12.1
 gunicorn>=20.1.0
-streamlit_option_menu==0.3.2cd
 openai
 # STREAMLIT_CONFIG_DIR=/app/.streamlit
 
