@@ -49,7 +49,6 @@ Enter assets you would like to test as a portfolio''')
 tickers_string = st.text_input('Enter all stock tickers to be included in portfolio separated by commas \
 								WITHOUT spaces, e.g. "TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG"', 'TSLA,AAPL,MSFT,ETH-USD,BTC-USD,MATIC-USD,GOOG').upper()
 tickers = tickers_string.split(',')
-st.markdown("""---""")
 
 risk_free_rate = .02
 st.markdown("""---""")
