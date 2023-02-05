@@ -206,9 +206,7 @@ st.plotly_chart(fig_corr) # fig_corr is not a plotly chart
 st.markdown("""---""")
 
 #################################################################################################################################
-# Display the weights_df dataframe
 report_title = " AI Generated Report  "  
-# Specify font to be inconsolata
 report_icon = ":crystal_ball:" # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.header('Summary')
 st.title(report_icon + " " + report_title + " " + report_icon)
